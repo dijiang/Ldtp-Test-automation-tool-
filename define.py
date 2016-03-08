@@ -2,6 +2,16 @@
 # -*- coding:utf-8 -*-
 
 # define some values
+
+special_dlg={'btn文件':'*Word','btn行和段落间距':'*Word','btn背景颜色':'*Word','btn更改大小写':'*Word'}
+
+special_updlg={'btn编号开/关':'*Word','btn项目符号开/关':'*Word','btn下划线':'*Word','btn粘贴':'*Word'}
+
+mnu_item={'mnu新建(N)':['mnu从模板新建(T)','mnu空白文档(D)'],
+		'mnu最近的文档(U)':['mnu清除列表'],
+		'mnu模板管理(T)':['mnu另存为模板(A)','mnu模板管理(B)']
+		}
+
 lstmap={	     "cbo字体名称":['lstBitstreamCharter','lstCenturySchoolbookL','lstCourier10Pitch','lstDejaVuSans','lstDejaVuSansCondensed','lstDejaVuSansLight','lstDejaVuSansMono','lstDejaVuSerif','lstDejaVuSerifCondensed','lstDingbats','lstDroidArabicNaskh','lstDroidSans','lstDroidSansArmenian','lstDroidSansEthiopic','lstDroidSansFallback','lstDroidSansGeorgian','lstDroidSansHebrew','lstDroidSansJapanese','lstDroidSansMono','lstDroidSansThai','lstDroidSerif','lstFreeMono','lstFreeSans','lstFreeSerif','lstLiberationMono','lstLiberationSans','lstLiberationSansNarrow','lstLiberationSerif','lstMTExtra','lstNimbusMonoL','lstNimbusRomanNo9L','lstNimbusSansL','lstOpenSymbol','lstStandardSymbolsL','lstSymbol','lstURWBookmanL','lstURWChanceryL','lstURWGothicL','lstURWPalladioL','lstWebdings','lstWingdings','lstWingdings2','lstWingdings3','lst文泉驿微米黑','lst文泉驿等宽微米黑'],
 
 		     "cbo字体大小":['lst八号','lst七号','lst小六','lst六号','lst小五','lst五号','lst小四','lst四号','lst小三','lst三号','lst小二','lst二号','lst小一','lst一号','lst小初','lst初号','lst6','lst7','lst8','lst9', 'lst10','lst105','lst11','lst12','lst13','lst14','lst15','lst16','lst18','lst20','lst22','lst24','lst26','lst28','lst32','lst36','lst40','lst44','lst48','lst54','lst60','lst66','lst72','lst80','lst88','lst96'],

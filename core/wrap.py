@@ -6,8 +6,7 @@ import define
 class wrap:
     def __init__( self ) :
         self.appname = "*Word"
-	self.special_dlg={'btn文件':'*Word','btn行和段落间距':'*Word','btn背景颜色':'*Word','btn更改大小写':'*Word'}
-	self.special_updlg={'btn编号开/关':'*Word','btn项目符号开/关':'*Word','btn下划线':'*Word','btn粘贴':'*Word'}
+
         self.eventmap = { "btn" : [   'click( <parent>, <self> )', 
 		                      'mouseleftclick( <parent>, <self> )', 
 			              'stateenabled( <parent>, <self> )' ],
@@ -25,10 +24,6 @@ class wrap:
 				      'getrowcount(<parent>,<self>)',
 				      'doubleclickrow(<parent>,<self>,\'column name\')']
 		         }
-	self.mnu_item={'mnu新建(N)':['mnu从模板新建(T)','mnu空白文档(D)'],
-		       'mnu最近的文档(U)':['mnu清除列表'],
-		       'mnu模板管理(T)':['mnu另存为模板(A)','mnu模板管理(B)']
-			}
     
     def to_script( self, val ,flag ,key=None):
 	print flag
@@ -81,7 +76,7 @@ class wrap:
 		self.FLAG=4
 		return "tbl"
 	if 0== name.find("mnu"):
-		component=[k for k,v in self.mnu_item.iteritems() if name in v]
+		component=[k for k,v in define.mnu_item.iteritems() if name in v]
 		if component:
 			self.FLAG=3    #mnu_item 子菜单
 			return "mnui"
@@ -122,7 +117,7 @@ class wrap:
 	# 查找类似"btn文件"的特殊子窗口，需先关闭软件，不然找不到
 	ldtp.launchapp('liteword')
 	lst1=ldtp.getwindowlist()
-	ldtp.mouseleftclick(self.special_dlg.get(name),name)
+	ldtp.mouseleftclick(define.special_dlg.get(name),name)
 	lst2=ldtp.getwindowlist()
 	ret=list(set(lst1)^set(lst2))
 	print 'hehe :',ret
@@ -134,7 +129,7 @@ class wrap:
 	# 查找类似"btn文件"的特殊子窗口，需先关闭软件，不然找不到
 	ldtp.launchapp('liteword')
 	lst1=ldtp.getwindowlist()
-	ldtp.click(self.special_updlg.get(name),name)
+	ldtp.click(define.special_updlg.get(name),name)
 	ldtp.generatekeyevent('<up>')
 	lst2=ldtp.getwindowlist()
 	ret=list(set(lst1)^set(lst2))
@@ -149,9 +144,9 @@ class wrap:
     def list( self, name ):
 	#先判断是不是特殊的，如果是就修改成真正要查找的名字 
 	self.parent = None
-	if(name in self.special_dlg.keys()):
+	if(name in define.special_dlg.keys()):
 		name=self.to_list(name)
-	if(name in self.special_updlg.keys()):
+	if(name in define.special_updlg.keys()):
 	    	name=self.to_uplist(name)
 	print name
         try :

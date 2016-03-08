@@ -123,7 +123,7 @@ class Application:
 		val = self.core.to_script( val,self.core.FLAG,component_name )
 		self.view.insert( val )
 	elif(3==self.core.FLAG): #处理flag=3(mnu_item)的特殊情况
-		component=[k for k,v in self.core.mnu_item.iteritems() if text in v]
+		component=[k for k,v in define.mnu_item.iteritems() if text in v]
 		if component:
 			component_name=component[0]
 		else:
