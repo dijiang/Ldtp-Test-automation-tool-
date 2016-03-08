@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import ldtp
-import val.define
+import define
 
 class wrap:
     def __init__( self ) :
@@ -89,7 +89,7 @@ class wrap:
 			self.FLAG=0    #单个mnu，和flag 0 处理一样
 			return "mnu"
 	if 0== name.find("lst"):
-		component=[k for k,v in val.define.lstmap.iteritems() if name  in v]
+		component=[k for k,v in define.lstmap.iteritems() if name  in v]
 		if component:
 			component_name=component[0]
 			print component_name
