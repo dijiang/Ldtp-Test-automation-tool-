@@ -5,6 +5,7 @@ pygtk.require( '2.0' )
 import gtk
 from ui.contrl import *
 import core.wrap
+import val.define
 
 class Application:
     def __init__( self ) :
@@ -113,7 +114,7 @@ class Application:
 	text=self.winName.get_text()
 
 	if(2==self.core.FLAG):   #处理flag=2（lst）的特殊情况
-		component=[k for k,v in self.core.lstmap.iteritems() if text in v]
+		component=[k for k,v in val.define.lstmap.iteritems() if text in v]
 		if component:
 			component_name=component[0]
 		else:
