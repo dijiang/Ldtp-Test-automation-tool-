@@ -1,2 +1,0 @@
-btn : [   'click( <parent>, <self> )', 'mouseleftclick( <parent>, <self> )' , 'stateenabled( <parent>, <self> )' ]
-cbo : [ 'getcombovalue( <parent>, <self> )']
