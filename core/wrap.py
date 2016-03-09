@@ -5,11 +5,14 @@ import define
 import os
 
 FILE_PATH=os.path.expanduser('~')+'/typedef.txt'
+INIT_PATH='./.init.txt'
 
 class wrap:
     def __init__( self ) :
         self.appname = "*Word"
-	self.total_file=[]
+	if not(os.path.exists(INIT_PATH)):
+		with open(INIT_PATH,'w'):
+			pass
         self.eventmap = { "btn" : [   'click( <parent>, <self> )', 
 		                      'mouseleftclick( <parent>, <self> )', 
 			              'stateenabled( <parent>, <self> )' ],
@@ -118,6 +121,8 @@ class wrap:
 
     def typedef(self,ls):
 	ls=sorted(ls)
+	with open(INIT_PATH,'r+') as init:
+		self.total_file=[i.strip('\n') for i in init.readlines()]
 	n=0
 	with open(FILE_PATH,'a+') as f:
 		for i in ls:
@@ -127,7 +132,8 @@ class wrap:
 						n=n+1
 						a=i[len(name):]
 						f.write("%s:%s\n"%(i,a))
-						self.total_file.append(i)
+						with open(INIT_PATH,'a+') as end:
+							end.write('%s\n'%i)
 		if(n>0):
 			f.write("**************************%d*****************************\n"%n)
     

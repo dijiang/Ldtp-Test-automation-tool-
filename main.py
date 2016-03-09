@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#test
 import pygtk
 pygtk.require( '2.0' )
 import gtk
