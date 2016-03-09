@@ -147,12 +147,11 @@ class Application:
         self.event_msg.set_text( "控件ID: %s"%val )   #更改控件ID的标题
         self.event.clear()
         if self.core.event( val ):
-            self.event.append( self.core.ls )      #中间一栏显示的控件消息
+            self.event.append( self.core.ls )         #中间一栏显示的控件消息
 
 	#查找子窗口按钮执行函数：
     def fun_search( self, widget, data  ):      
         self.tree.clear()
-
         name = self.winName.get_text()
 	if self.old:
 		if(name!=self.old[-1]):
@@ -161,7 +160,10 @@ class Application:
 		self.old.append(name)
         if self.core.list( name ):
             self.tree.append( self.core.ls )        #窗口名称下面显示找到的东西
-	self.message.set_text( self.core.msg )  #按钮下面显示找到270个窗口
+		 #开启或者关闭别名的功能 
+	    self.core.typedef(self.core.ls)
+	self.message.set_text( self.core.msg )      #按钮下面显示找到270个窗口
+
 	#返回按钮执行函数：
     def fun_research( self, widget, data = None ):
 	self.tree.clear()

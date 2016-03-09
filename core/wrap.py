@@ -2,11 +2,14 @@
 # -*- coding:utf-8 -*-
 import ldtp
 import define
+import os
+
+FILE_PATH=os.path.expanduser('~')+'/typedef.txt'
 
 class wrap:
     def __init__( self ) :
         self.appname = "*Word"
-
+	self.total_file=[]
         self.eventmap = { "btn" : [   'click( <parent>, <self> )', 
 		                      'mouseleftclick( <parent>, <self> )', 
 			              'stateenabled( <parent>, <self> )' ],
@@ -112,6 +115,21 @@ class wrap:
 
     def run( self ):
         ldtp.launchapp( "liteword" )
+
+    def typedef(self,ls):
+	ls=sorted(ls)
+	n=0
+	with open(FILE_PATH,'a+') as f:
+		for i in ls:
+			if i not in self.total_file:
+				for name in define.ls_type:
+					if(i.startswith(name)):
+						n=n+1
+						a=i[len(name):]
+						f.write("%s:%s\n"%(i,a))
+						self.total_file.append(i)
+		if(n>0):
+			f.write("**************************%d*****************************\n"%n)
     
     def to_list(self,name):
 	# 查找类似"btn文件"的特殊子窗口，需先关闭软件，不然找不到
@@ -126,7 +144,7 @@ class wrap:
 			if i.startswith("dlg"):
 				return i
     def to_uplist(self,name):
-	# 查找类似"btn文件"的特殊子窗口，需先关闭软件，不然找不到
+	# 查找类似"btn下划线"的特殊子窗口，需先关闭软件，不然找不到
 	ldtp.launchapp('liteword')
 	lst1=ldtp.getwindowlist()
 	ldtp.click(define.special_updlg.get(name),name)
@@ -138,8 +156,6 @@ class wrap:
 		for i in ret:
 			if i.startswith("dlg"):
 				return i
-
-         
 
     def list( self, name ):
 	#先判断是不是特殊的，如果是就修改成真正要查找的名字 
