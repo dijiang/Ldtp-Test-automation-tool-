@@ -3,6 +3,7 @@
 import ldtp
 import define
 import os
+import re
 
 FILE_PATH=os.path.expanduser('~')+'/typedef.txt'
 INIT_PATH='./.init.txt'
@@ -90,21 +91,15 @@ class wrap:
 			self.FLAG=0    #单个mnu，和flag 0 处理一样
 			return "mnu"
 	if 0== name.find("lst"):
-		component=[k for k,v in define.lstmap.iteritems() if name  in v]
+		component=[k for k,v in self.lst_map.iteritems() if name  in v]
 		if component:
-			component_name=component[0]
+			component_name=component[0]  #lst 属于special cbo,flag=2 处理
 			print component_name
-			if(component_name=="colour" or component_name=="notneed_parent"):  #lst color and no parents 特殊，和flag 0处理一样
-				print 'match color or no parents'
-				self.FLAG=0 
-				return "lst1"
-			else:
-				self.FLAG=2
-				return 'lst'
-		else:
-			print "kongde"
 			self.FLAG=2
-		return "lst"
+			return "lst"
+		else:				     #其他lst,flag=o 默认处理
+			self.FLAG=0
+			return "lst1"
         return None
 
     def event( self, name ): 
@@ -119,6 +114,7 @@ class wrap:
     def run( self ):
         ldtp.launchapp( "liteword" )
 
+	#处理别名的函数:
     def typedef(self,ls):
 	ls=sorted(ls)
 	with open(INIT_PATH,'r+') as init:
@@ -137,6 +133,28 @@ class wrap:
 		if(n>0):
 			f.write("**************************%d*****************************\n"%n)
     
+	#处理lst分类的函数:
+    def cope_lst(self,name):
+	lst_map={}
+	cbo=[i for i in self.ls if i.startswith('cbo')]
+	for i in cbo:
+		lst_tmp=[]
+		for tmp in ldtp.getallitem(name,i):
+			count=0
+			newstr='lst'+''.join(re.split('\s+|\.','%s'%tmp))
+			#判断不同的cbo中是否有同名的lst,如果存在按照ldtp规则，在后面依次加入1,2...
+			for n in lst_map.values():
+				for item in n:
+					if (newstr==item or newstr==item[:len(n)-1]):
+						count+=1
+			if(count>0):
+				lst_tmp.append(newstr+'%d'%count)
+			else:
+				lst_tmp.append(newstr)
+		lst_map[i]=lst_tmp		
+	#print "lst_map:",lst_map
+	return lst_map
+
     def to_list(self,name):
 	# 查找类似"btn文件"的特殊子窗口，需先关闭软件，不然找不到
 	ldtp.launchapp('liteword')
@@ -166,6 +184,7 @@ class wrap:
     def list( self, name ):
 	#先判断是不是特殊的，如果是就修改成真正要查找的名字 
 	self.parent = None
+	self.lst_map={}
 	if(name in define.special_dlg.keys()):
 		name=self.to_list(name)
 	if(name in define.special_updlg.keys()):
@@ -176,6 +195,7 @@ class wrap:
                 self.ls = ldtp.getwindowlist()
             elif 1 == ldtp.guiexist( name ):
                 self.ls = ldtp.getobjectlist( name )
+		self.lst_map=self.cope_lst(name)
             else:
                 self.msg = "没有找到窗口"
                 return False

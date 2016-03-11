@@ -114,7 +114,7 @@ class Application:
 	text=self.winName.get_text()
 
 	if(2==self.core.FLAG):   #处理flag=2（lst）的特殊情况
-		component=[k for k,v in define.lstmap.iteritems() if text in v]
+		component=[k for k,v in self.core.lst_map.iteritems() if text in v]
 		if component:
 			component_name=component[0]
 		else:
