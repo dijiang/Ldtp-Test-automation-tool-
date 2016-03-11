@@ -716,3 +716,6 @@ pnl16
 pnl样式(Y)
 pnl颜色(C)
 pnl颜色(O)
+frmColor
+lst无颜色
+lst无颜色1

@@ -7,7 +7,6 @@ import re
 
 FILE_PATH=os.path.expanduser('~')+'/typedef.txt'
 INIT_PATH='./.init.txt'
-
 class wrap:
     def __init__( self ) :
         self.appname = "*Word"
@@ -34,55 +33,35 @@ class wrap:
     
     def to_script( self, val ,flag ,key=None):
 	print flag
-	if(0==flag):
+	if(define.NORMAL==flag):
 		val = val.replace( "<parent>", "\"%s\""%self.parent )
         	val = val.replace( "<self>", "\"%s\""%self.self )
-	if(1==flag):  #ptab flag=1
+	if(define.PTAB==flag):  #ptab flag=1
 		val=val.replace("<parent>","\"%s\""%self.parent)
 		val=val.replace("<tab_list_name>","\"ptl0\"")
 		tmp=ldtp.getobjectproperty(self.parent,self.self,'child_index')
 		val=val.replace("<self_index>","%d"%tmp)
-	if(2==flag):  #lst flag=2
+	if(define.LST==flag):  #lst flag=2
 		val=val.replace("<parent>","\"%s\""%self.parent)
 		val=val.replace("<component_name>","\"%s\""%key)
 		tmp=ldtp.getobjectproperty(self.parent,self.self,'child_index')
 		val=val.replace("<self_index>","%d"%tmp)
-	if(3==flag):  #mnu_item flag=3
+	if(define.MNU_ITEM==flag):  #mnu_item flag=3
 		val=val.replace("<parent>","\"%s\""%self.parent)
 		val=val.replace("<mnu;mnuitem>","\"%s\""%key)
-	if(4==flag):  #tbl flag=4
+	if(define.TBL==flag):  #tbl flag=4
 		val=val.replace("<parent>","\"%s\""%self.parent)
 		val=val.replace("<self>","\"%s\""%self.self)
 		tmp=ldtp.getrowcount(self.parent,self.self)
 		val=val.replace("<child_index>","0~%d"%(tmp-1))
         return val
 
-    def get_type( self, name ):
-        if 0== name.find("btn"):
-		self.FLAG=0
-		return "btn"
-	if 0== name.find("rbtn"):
-		self.FLAG=0
-		return "rbtn"
-	if 0== name.find("tbtn"):
-		self.FLAF=0
-		return "tbtn"
-	if 0== name.find("ptab"):
-		self.FLAG=1
-		return "ptab"
-	if 0== name.find("chk"):
-		self.FLAG=0
-		return "chk"
-	if 0== name.find("cbo"):
-		self.FLAG=0
-		return "cbo"
-	if 0== name.find("txt"):
-		self.FLAG=0
-		return "txt"
-	if 0==name.find("tbl"):
-		self.FLAG=4
-		return "tbl"
-	if 0== name.find("mnu"):
+    def get_type( self, name ):	
+	key=name[:3]
+	if(key in define.type_key.iterkeys()):
+		self.FLAG=define.type_key[key][0]
+		return define.type_key[key][1]
+	if (name.startswith("mnu")):
 		component=[k for k,v in define.mnu_item.iteritems() if name in v]
 		if component:
 			self.FLAG=3    #mnu_item 子菜单
@@ -90,7 +69,7 @@ class wrap:
 		else:
 			self.FLAG=0    #单个mnu，和flag 0 处理一样
 			return "mnu"
-	if 0== name.find("lst"):
+	if (name.startswith("lst")):
 		component=[k for k,v in self.lst_map.iteritems() if name  in v]
 		if component:
 			component_name=component[0]  #lst 属于special cbo,flag=2 处理

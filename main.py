@@ -113,7 +113,7 @@ class Application:
 	#print flag
 	text=self.winName.get_text()
 
-	if(2==self.core.FLAG):   #处理flag=2（lst）的特殊情况
+	if(define.LST==self.core.FLAG):   #处理flag=2（lst）的特殊情况
 		component=[k for k,v in self.core.lst_map.iteritems() if text in v]
 		if component:
 			component_name=component[0]
@@ -122,7 +122,7 @@ class Application:
 			#return
 		val = self.core.to_script( val,self.core.FLAG,component_name )
 		self.view.insert( val )
-	elif(3==self.core.FLAG): #处理flag=3(mnu_item)的特殊情况
+	elif(define.MNU_ITEM==self.core.FLAG): #处理flag=3(mnu_item)的特殊情况
 		component=[k for k,v in define.mnu_item.iteritems() if text in v]
 		if component:
 			component_name=component[0]
@@ -166,7 +166,6 @@ class Application:
 	#返回按钮执行函数：
     def fun_research( self, widget, data = None ):
 	self.tree.clear()
-	print 'hiahia',self.old
 	if self.old:
 		self.old.pop()
 		if self.old:
